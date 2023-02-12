@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
-import { Button } from 'semantic-ui-react';
+import { Dimmer, Segment, Loader } from 'semantic-ui-react';
 import busInfo from './model/buses';
 import List from './Components/List';
 import { DaneStopow } from './model/stop';
@@ -37,13 +37,14 @@ function getDepartures({setDepartures}:any,stopId:string) {
     });
 }
 
-function getStops({setStops}:any) {
+function getStops({setStops}:any, {setDimmer}:any) {
   axios({
     method: 'get',
     url: 'http://localhost:5045/departures/GetAllStops',
   })
     .then(function (response) {
       setStops(mapStops(response.data));
+      setDimmer(false);
     });
 }
 
@@ -52,6 +53,7 @@ function App() {
 const [departures, setDepartures] = useState<busInfo[]>([]);
 const [stop, setStop] = useState<DaneStopow>({stopDesc:"",stopId:""});
 const [stops, setStops] = useState<DaneStopow[]>([]);
+const [dim, setDimmer] = useState<boolean>(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -60,15 +62,26 @@ const [stops, setStops] = useState<DaneStopow[]>([]);
   }, [departures]);
 
   useEffect(() => {
-      getStops({setStops});
+      getStops({setStops},{setDimmer});
   }, []);
 
   return (
-    <div >
+    <>
+    <Dimmer active={dim} page>
+      <Loader>Loading</Loader>
+    </Dimmer>
+    <div id="separatorL">
+    <div id="center">
       <AutoComplete Stops={stops} setStopId={setStop}></AutoComplete>
-      <p>{stop.stopDesc}</p>
+    </div>
+    <div id="center">
+      <h3>{stop.stopDesc}</h3>
+    </div>
+    <div id="center">
       <List Departures={departures}></List>
     </div>
+    </div>
+      </>
   );
 }
 
