@@ -1,20 +1,18 @@
 import React from "react"
 import busInfo from "../model/buses"
+import { List } from 'semantic-ui-react'
 
-
-export default function List(props:{Departures:busInfo[]}){
-
-
+export default function ListOfDeparture(props:{Departures:busInfo[]}){
     if (props.Departures[0]!=undefined) {
         const listItems = props.Departures.map((text) =>(
-            <li>{text.busNumber} - {text.headSign} - {text.displayedTime}</li>
+            <List.Item>{text.busNumber} - {text.headSign} - {text.displayedTime}</List.Item>
           )
     
           );
         return(
-            <ul>
+            <List>
                 {listItems}
-            </ul>
+            </List>
         )
     }
     else{

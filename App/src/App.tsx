@@ -4,7 +4,7 @@ import './App.css';
 import axios from 'axios';
 import { Dimmer, Segment, Loader } from 'semantic-ui-react';
 import busInfo from './model/buses';
-import List from './Components/List';
+import ListOfDepartures from './Components/List';
 import { DaneStopow } from './model/stop';
 import StopsList from './Components/StopsList';
 import AutoComplete from './Components/AutoComplete';
@@ -56,9 +56,7 @@ const [stops, setStops] = useState<DaneStopow[]>([]);
 const [dim, setDimmer] = useState<boolean>(true);
 
   useEffect(() => {
-    setTimeout(() => {
       getDepartures({setDepartures},stop.stopId.toString());
-    }, 10000);
   }, [departures]);
 
   useEffect(() => {
@@ -78,7 +76,7 @@ const [dim, setDimmer] = useState<boolean>(true);
       <h3>{stop.stopDesc}</h3>
     </div>
     <div id="center">
-      <List Departures={departures}></List>
+      <ListOfDepartures Departures={departures}></ListOfDepartures>
     </div>
     </div>
       </>
